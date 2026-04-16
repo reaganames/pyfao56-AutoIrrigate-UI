@@ -1,10 +1,9 @@
 """
 ########################################################################
-The AdditionalGraphs.py module contains the Visualizaitons class, which provides
-tools for visualizing pyfao56 Model output.
+The AdditionalGraphs.py module contains the AdditionalGraphs class, 
+which provides tools for visualizing pyfao56 Model output.
 
 The AdditionalGraphs.py module contains the following:
-    Visualizations - A class for evaluating pyfao56 Model output, inherited by: 
     AdditionalGraphs - A child class to add more graphs to pyFAO-56
 
 ########################################################################
@@ -12,8 +11,6 @@ The AdditionalGraphs.py module contains the following:
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from pyfao56.tools import  Visualization
-from datetime import datetime as dt
-
 class AdditionalGraphs (Visualization):
     """
     A class for visualizing pyfao56 Model output with measurements.
@@ -22,26 +19,15 @@ class AdditionalGraphs (Visualization):
     ----------
     mdl : pyfao56 Model class
         Provides the simulated data
-    todayidx : str
-        Year and day of year of today ('yyyy-ddd')
-    vdata : Dataframe
-        Combined DataFrame of simulated (mdl.odata) and measured
-        (sws.summarize()) root zone soil water data
 
     """
     def __init__(self, mdl):
         super().__init__(mdl)
         self.mdl = mdl
 
-        #Add measured data if available
-        if self.sws is not None:
-            self.vdata = self.vdata.merge(self.sws.summarize(),
-                                          right_index=True,
-                                          left_index=True,
-                                          how='outer')
-        print("Visualization Data Columns:")
-        print(self.vdata.columns)
-        print('*'*50)
+        # Remove duplicate columns in mdl.odata
+        self.vdata = mdl.odata.T.drop_duplicates().T
+        
         #Set zero rain and irrigation to NaN
         NaN = float('NaN')
         self.vdata['Rain'].replace(0.0,NaN,inplace=True)
