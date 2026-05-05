@@ -1,12 +1,8 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import plotly.express as px
 import pyfao56 as fao
 import datetime as dt
-from pyfao56 import tools
 import os
-import AdditionalGraphs
 from AdditionalGraphs import AdditionalGraphs
 import plotly.io as pio
 from streamlit_timeline import st_timeline
@@ -377,7 +373,7 @@ with tab2:
     st.date_input("Select Model Start Date", key="start",value=pd.to_datetime("2018-108", format="%Y-%j"))
     st.date_input("Select Model End Date", key="end", value=pd.to_datetime("2018-302", format="%Y-%j"))
     #Adding toggle for date selection (if user wants to specify a custom date range for autoirrigation scheduling)
-    different_dates = st.toggle ("Use Different Date Range for Autoirrigation Scheduling (rather than model range)", key="different_dates")
+    different_dates = st.toggle ("Use a different date range for AutoIrrigation scheduling (rather than model range)", key="different_dates")
     if different_dates:
         st.date_input("Select AutoIrrigation Start Date", key="airr_start",value=pd.to_datetime("2018-108", format="%Y-%j"))
         st.date_input("Select AutoIrrigation End Date", key="airr_end", value=pd.to_datetime("2018-302", format="%Y-%j"))
